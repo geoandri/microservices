@@ -1,9 +1,8 @@
-package org.geoandri.teams.event;
+package org.geoandri.developers.event;
 
-import org.geoandri.teams.dto.TeamDto;
+import org.geoandri.developers.dto.TeamDto;
 
 public class TeamEvent {
-
     private EventType eventType;
     private TeamDto teamDto;
 
@@ -26,5 +25,13 @@ public class TeamEvent {
 
     public void setTeamDto(TeamDto teamDto) {
         this.teamDto = teamDto;
+    }
+
+    @Override
+    public String toString() {
+        return "TeamEvent{" +
+                "eventType=" + eventType +
+                ", teamDto=" + teamDto +
+                '}';
     }
 }

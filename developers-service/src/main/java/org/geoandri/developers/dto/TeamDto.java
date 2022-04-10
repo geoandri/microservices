@@ -1,4 +1,4 @@
-package org.geoandri.teams.dto;
+package org.geoandri.developers.dto;
 
 import javax.validation.constraints.NotEmpty;
 

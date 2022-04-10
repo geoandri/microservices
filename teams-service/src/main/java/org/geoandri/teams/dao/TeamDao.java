@@ -5,11 +5,13 @@ import org.geoandri.teams.exception.TeamNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.List;
 
+@ApplicationScoped
 public class TeamDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(TeamDao.class);
 
