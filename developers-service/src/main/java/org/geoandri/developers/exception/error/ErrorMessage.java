@@ -1,4 +1,4 @@
-package org.geoandri.teams.exception.error;
+package org.geoandri.developers.exception.error;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

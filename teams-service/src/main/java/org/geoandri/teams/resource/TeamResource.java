@@ -88,6 +88,5 @@ public class TeamResource {
 
         return Response
                 .status(Response.Status.OK).build();
-
     }
 }

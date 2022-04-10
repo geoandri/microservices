@@ -2,7 +2,7 @@ package org.geoandri.teams.exception;
 
 import java.io.Serializable;
 
-public class TeamNotFoundException extends Exception implements Serializable {
+public class TeamNotFoundException extends Exception {
 
     public TeamNotFoundException() {
     }
