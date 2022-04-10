@@ -10,6 +10,14 @@ public class TeamDto {
 
     private String description;
 
+    public TeamDto() {
+    }
+
+    public TeamDto(long id, @NotEmpty(message = "Team's name is required.") String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public long getId() {
         return id;
     }

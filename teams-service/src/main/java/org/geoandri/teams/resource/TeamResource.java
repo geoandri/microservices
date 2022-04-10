@@ -72,6 +72,7 @@ public class TeamResource {
     @Path("/{id}")
     public Response updateTeam(@PathParam("id") long id, TeamDto teamDto) throws TeamNotFoundException {
         TeamDto updatedTeamDto = teamMapper.toTeamDto(teamService.update(id, teamMapper.toTeam(teamDto)));
+        teamProducer.publishEvent(new TeamEvent(EventType.TEAM_UPDATED, updatedTeamDto));
 
         return Response
                 .status(Response.Status.OK)
@@ -83,6 +84,7 @@ public class TeamResource {
     @Path("/{id}")
     public Response deleteTeam(@PathParam("id") long id) throws TeamNotFoundException {
         teamService.delete(id);
+        teamProducer.publishEvent(new TeamEvent(EventType.TEAM_DELETED, new TeamDto(id, "FOR DELETION")));
 
         return Response
                 .status(Response.Status.OK).build();

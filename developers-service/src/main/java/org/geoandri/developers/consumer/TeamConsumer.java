@@ -1,6 +1,5 @@
 package org.geoandri.developers.consumer;
 
-import io.smallrye.mutiny.Multi;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.geoandri.developers.event.TeamEvent;
 import org.slf4j.Logger;
@@ -13,7 +12,19 @@ public class TeamConsumer {
     private static Logger LOGGER = LoggerFactory.getLogger(TeamConsumer.class);
 
     @Incoming("team-events")
-    public void logEvents(TeamEvent event) {
+    public void consumeEvents(TeamEvent event) {
         LOGGER.info(event.toString());
+        switch (event.getEventType()) {
+            case TEAM_CREATED: {
+                //
+                break;
+            }
+            case TEAM_DELETED: {
+                break;
+            }
+            case TEAM_UPDATED: {
+                break;
+            }
+        }
     }
 }
