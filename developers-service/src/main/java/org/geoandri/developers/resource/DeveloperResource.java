@@ -64,8 +64,9 @@ public class DeveloperResource {
     @PUT
     @Path("/{id}")
     public Response updateDeveloper(@PathParam("id") long id, DeveloperDto developerDto) throws EntityNotFoundException {
+        developerDto.setId(id);
         DeveloperDto updatedDeveloperDto = developerMapper.
-                toDeveloperDto(developerService.update(id, developerMapper.toDeveloper(developerDto)));
+                toDeveloperDto(developerService.update(developerMapper.toDeveloper(developerDto)));
 
         return Response
                 .status(Response.Status.OK)

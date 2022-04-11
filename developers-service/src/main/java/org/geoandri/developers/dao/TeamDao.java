@@ -31,8 +31,8 @@ public class TeamDao {
         throw new EntityNotFoundException(String.format("Team with id %s could not be found.", id));
     }
 
-    public Team updateTeam(long id, Team team) throws EntityNotFoundException {
-        Team persistedTeam = getTeam(id);
+    public Team updateTeam(Team team) throws EntityNotFoundException {
+        Team persistedTeam = getTeam(team.getId());
         persistedTeam.setName(team.getName());
         persistedTeam.setDescription(team.getDescription());
         entityManager.merge(persistedTeam);

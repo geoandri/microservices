@@ -23,8 +23,8 @@ public class TeamService {
         return teamDao.saveTeam(team);
     }
 
-    public Team update(long id, Team team) throws EntityNotFoundException {
-        return teamDao.updateTeam(id, team);
+    public Team update(Team team) throws EntityNotFoundException {
+        return teamDao.updateTeam(team);
     }
 
     public void delete(long id) throws EntityNotFoundException {

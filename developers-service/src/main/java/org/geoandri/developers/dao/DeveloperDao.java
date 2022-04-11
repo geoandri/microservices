@@ -40,8 +40,8 @@ public class DeveloperDao {
         throw new EntityNotFoundException(String.format("Developer with id %s could not be found.", id));
     }
 
-    public Developer updateDeveloper(long id, Developer developer) throws EntityNotFoundException {
-        Developer persistedDeveloper = getDeveloper(id);
+    public Developer updateDeveloper(Developer developer) throws EntityNotFoundException {
+        Developer persistedDeveloper = getDeveloper(developer.getId());
         persistedDeveloper.setName(developer.getName());
         persistedDeveloper.setTeam(developer.getTeam());
         entityManager.merge(persistedDeveloper);

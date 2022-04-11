@@ -36,11 +36,11 @@ public class DeveloperService {
         return developerDao.getDeveloper(id);
     }
 
-    public Developer update(long id, Developer developer) throws EntityNotFoundException {
+    public Developer update(Developer developer) throws EntityNotFoundException {
         Team team = teamDao.findByName(developer.getTeam().getName());
         developer.setTeam(team);
 
-        return developerDao.updateDeveloper(id, developer);
+        return developerDao.updateDeveloper(developer);
     }
 
     public void delete(long id) throws EntityNotFoundException {

@@ -40,7 +40,7 @@ public class TeamConsumer {
             case TEAM_UPDATED: {
                 Team team = teamMapper.toTeam(event.getTeamDto());
                 try {
-                    teamService.update(team.getId(), team);
+                    teamService.update(team);
                 } catch (EntityNotFoundException e) {
                     LOGGER.warn("Team {} could not be found.", team);
                 }
