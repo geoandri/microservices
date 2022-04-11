@@ -28,6 +28,7 @@ public class TeamConsumer {
         switch (event.getEventType()) {
             case TEAM_CREATED: {
                 teamService.save(teamMapper.toTeam(event.getTeamDto()));
+                break;
             }
             case TEAM_DELETED: {
                 Team team = teamMapper.toTeam(event.getTeamDto());
@@ -36,6 +37,7 @@ public class TeamConsumer {
                 } catch (EntityNotFoundException e) {
                     LOGGER.warn("Team {} could not be found.", team);
                 }
+                break;
             }
             case TEAM_UPDATED: {
                 Team team = teamMapper.toTeam(event.getTeamDto());
@@ -44,6 +46,7 @@ public class TeamConsumer {
                 } catch (EntityNotFoundException e) {
                     LOGGER.warn("Team {} could not be found.", team);
                 }
+                break;
             }
         }
     }

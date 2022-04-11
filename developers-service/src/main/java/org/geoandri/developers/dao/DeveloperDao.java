@@ -16,8 +16,9 @@ public class DeveloperDao {
     EntityManager entityManager;
 
     public List<Developer> getDevelopers(int pageNum, int pageSize) {
+        pageNum = pageNum > 0 ? pageNum : 1;
         Query query = entityManager.createQuery("select d from Developer d order by d.id asc");
-        int firstResult = (pageNum -1) * pageSize;
+        int firstResult = (pageNum - 1) * pageSize;
         query.setFirstResult(firstResult);
         query.setMaxResults(pageSize);
 

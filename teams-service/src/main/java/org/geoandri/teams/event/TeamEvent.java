@@ -27,4 +27,12 @@ public class TeamEvent {
     public void setTeamDto(TeamDto teamDto) {
         this.teamDto = teamDto;
     }
+
+    @Override
+    public String toString() {
+        return "TeamEvent{" +
+                "eventType=" + eventType +
+                ", teamDto=" + teamDto +
+                '}';
+    }
 }

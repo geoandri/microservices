@@ -19,6 +19,7 @@ public class TeamDao {
     EntityManager entityManager;
 
     public List<Team> getTeams(int pageNum, int pageSize) {
+        pageNum = pageNum > 0 ? pageNum : 1;
         Query query = entityManager.createQuery("select t from Team t order by t.id asc");
         int firstResult = (pageNum -1) * pageSize;
         query.setFirstResult(firstResult);
