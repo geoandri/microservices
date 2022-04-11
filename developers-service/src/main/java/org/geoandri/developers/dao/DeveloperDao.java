@@ -53,4 +53,10 @@ public class DeveloperDao {
         Developer developer = getDeveloper(id);
         entityManager.remove(developer);
     }
+
+    public void deleteDevelopersByTeamId(long id) {
+        entityManager.createQuery("delete from Developer d where d.team.id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
+    }
 }

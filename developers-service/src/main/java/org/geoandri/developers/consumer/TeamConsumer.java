@@ -1,29 +1,49 @@
 package org.geoandri.developers.consumer;
 
 import org.eclipse.microprofile.reactive.messaging.Incoming;
+import org.geoandri.developers.entity.Team;
 import org.geoandri.developers.event.TeamEvent;
+import org.geoandri.developers.exception.EntityNotFoundException;
+import org.geoandri.developers.mapper.TeamMapper;
+import org.geoandri.developers.service.TeamService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 @ApplicationScoped
 public class TeamConsumer {
     private static Logger LOGGER = LoggerFactory.getLogger(TeamConsumer.class);
 
+    @Inject
+    TeamService teamService;
+
+    @Inject
+    TeamMapper teamMapper;
+
     @Incoming("team-events")
     public void consumeEvents(TeamEvent event) {
-        LOGGER.info(event.toString());
+        LOGGER.debug("Received event from Kafka: {}", event.toString());
         switch (event.getEventType()) {
             case TEAM_CREATED: {
-                //
-                break;
+                teamService.save(teamMapper.toTeam(event.getTeamDto()));
             }
             case TEAM_DELETED: {
-                break;
+                Team team = teamMapper.toTeam(event.getTeamDto());
+                try {
+                    teamService.delete(team.getId());
+                } catch (EntityNotFoundException e) {
+                    LOGGER.warn("Team {} could not be found.", team);
+                }
             }
             case TEAM_UPDATED: {
-                break;
+                Team team = teamMapper.toTeam(event.getTeamDto());
+                try {
+                    teamService.update(team.getId(), team);
+                } catch (EntityNotFoundException e) {
+                    LOGGER.warn("Team {} could not be found.", team);
+                }
             }
         }
     }
