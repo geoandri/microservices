@@ -2,12 +2,15 @@ package org.geoandri.teams.dao;
 
 import org.geoandri.teams.entity.Team;
 import org.geoandri.teams.exception.TeamNotFoundException;
+import org.geoandri.teams.exception.TeamPersistenceException;
+import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import java.util.List;
 
@@ -28,10 +31,15 @@ public class TeamDao {
         return query.getResultList();
     }
 
-    public Team saveTeam(Team team){
-        entityManager.persist(team);
+    public Team saveTeam(Team team) throws TeamPersistenceException {
+        try {
+            entityManager.persist(team);
 
-        return team;
+            return team;
+        }
+        catch (PersistenceException e) {
+            throw new TeamPersistenceException(e.getMessage());
+        }
     }
 
     public Team getTeam(long id) throws TeamNotFoundException {
@@ -44,13 +52,19 @@ public class TeamDao {
         throw new TeamNotFoundException(String.format("Team with id %s could not be found.", id));
     }
 
-    public Team updateTeam(long id, Team team) throws TeamNotFoundException {
+    public Team updateTeam(long id, Team team) throws TeamNotFoundException, TeamPersistenceException {
         Team persistedTeam = getTeam(id);
         persistedTeam.setName(team.getName());
         persistedTeam.setDescription(team.getDescription());
-        entityManager.merge(persistedTeam);
+        try {
+            entityManager.merge(persistedTeam);
+            entityManager.flush();
 
-        return persistedTeam;
+            return persistedTeam;
+        }
+        catch (PersistenceException e) {
+            throw new TeamPersistenceException(e.getMessage());
+        }
     }
 
     public void deleteTeam(long id) throws TeamNotFoundException {

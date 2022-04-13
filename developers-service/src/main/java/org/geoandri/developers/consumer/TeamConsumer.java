@@ -4,6 +4,7 @@ import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.geoandri.developers.entity.Team;
 import org.geoandri.developers.event.TeamEvent;
 import org.geoandri.developers.exception.EntityNotFoundException;
+import org.geoandri.developers.exception.EntityPersistenceException;
 import org.geoandri.developers.mapper.TeamMapper;
 import org.geoandri.developers.service.TeamService;
 import org.slf4j.Logger;
@@ -27,7 +28,11 @@ public class TeamConsumer {
         LOGGER.debug("Received event from Kafka: {}", event.toString());
         switch (event.getEventType()) {
             case TEAM_CREATED: {
-                teamService.save(teamMapper.toTeam(event.getTeamDto()));
+                try {
+                    teamService.save(teamMapper.toTeam(event.getTeamDto()));
+                } catch (EntityPersistenceException e) {
+                    LOGGER.error(e.getMessage());
+                }
                 break;
             }
             case TEAM_DELETED: {
@@ -45,6 +50,8 @@ public class TeamConsumer {
                     teamService.update(team);
                 } catch (EntityNotFoundException e) {
                     LOGGER.warn("Team {} could not be found.", team);
+                } catch (EntityPersistenceException e) {
+                    LOGGER.error(e.getMessage());
                 }
                 break;
             }

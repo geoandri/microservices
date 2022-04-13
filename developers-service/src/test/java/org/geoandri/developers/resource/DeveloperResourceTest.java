@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @QuarkusTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class DeveloperResourceIT {
+public class DeveloperResourceTest {
 
 
     @Test
@@ -34,10 +34,10 @@ public class DeveloperResourceIT {
     @Order(2)
     public void testGetAllDevelopersEndpointWithPagination() {
         DeveloperDto[] response = given()
-                .when().get("/developers?pageNum=2&pageSize=2")
-                .then()
-                .statusCode(200)
-                .extract().body().as(DeveloperDto[].class);
+                                        .when().get("/developers?pageNum=2&pageSize=2")
+                                        .then()
+                                        .statusCode(200)
+                                        .extract().body().as(DeveloperDto[].class);
 
         assertEquals("Developer 2A", response[0].getName());
         assertEquals("Developer 2B", response[1].getName());
@@ -121,15 +121,30 @@ public class DeveloperResourceIT {
         developerDto.setTeam("Team A");
 
         ErrorMessage response = given()
+                                        .contentType(ContentType.JSON)
+                                        .with().body(developerDto)
+                                        .when().post("/developers")
+                                        .then()
+                                        .contentType(ContentType.JSON)
+                                        .statusCode(400)
+                                        .extract().body().as(ErrorMessage.class);
+
+        assertEquals(1, response.getErrors().size());
+        assertTrue(response.getErrors().contains("Developer's name is required."));
+    }
+
+    @Test
+    @Order(9)
+    public void testPostDeveloperEndpointWithExistingName() {
+        DeveloperDto developerDto = new DeveloperDto();
+        developerDto.setName("Developer 1A");
+
+        given()
                 .contentType(ContentType.JSON)
                 .with().body(developerDto)
                 .when().post("/developers")
                 .then()
                 .contentType(ContentType.JSON)
-                .statusCode(400)
-                .extract().body().as(ErrorMessage.class);
-
-        assertEquals(1, response.getErrors().size());
-        assertTrue(response.getErrors().contains("Developer's name is required."));
+                .statusCode(400);
     }
 }

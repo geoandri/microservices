@@ -2,6 +2,7 @@ package org.geoandri.teams.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.Objects;
 
 @Entity
 @Table(name = "teams")
@@ -37,5 +38,20 @@ public class Team {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Team team = (Team) o;
+        return id == team.id &&
+                name.equals(team.name) &&
+                description.equals(team.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description);
     }
 }

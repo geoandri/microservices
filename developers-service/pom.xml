@@ -113,10 +113,6 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-kafka-client</artifactId>
     </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-junit5-mockito</artifactId>
-    </dependency>
   </dependencies>
   <build>
     <plugins>

@@ -6,6 +6,7 @@ import org.geoandri.teams.dto.TeamDto;
 import org.geoandri.teams.event.EventType;
 import org.geoandri.teams.event.TeamEvent;
 import org.geoandri.teams.exception.TeamNotFoundException;
+import org.geoandri.teams.exception.TeamPersistenceException;
 import org.geoandri.teams.mapper.TeamMapper;
 import org.geoandri.teams.producer.TeamProducer;
 import org.geoandri.teams.service.TeamService;
@@ -58,7 +59,7 @@ public class TeamResource {
     }
 
     @POST
-    public Response saveTeam(@Valid TeamDto teamDto) {
+    public Response saveTeam(@Valid TeamDto teamDto) throws TeamPersistenceException {
         TeamDto persistedTeamDto = teamMapper.toTeamDto(teamService.save(teamMapper.toTeam(teamDto)));
         teamProducer.publishEvent(new TeamEvent(EventType.TEAM_CREATED, persistedTeamDto));
 
@@ -70,7 +71,7 @@ public class TeamResource {
 
     @PUT
     @Path("/{id}")
-    public Response updateTeam(@PathParam("id") long id, TeamDto teamDto) throws TeamNotFoundException {
+    public Response updateTeam(@PathParam("id") long id, TeamDto teamDto) throws TeamNotFoundException, TeamPersistenceException {
         TeamDto updatedTeamDto = teamMapper.toTeamDto(teamService.update(id, teamMapper.toTeam(teamDto)));
         teamProducer.publishEvent(new TeamEvent(EventType.TEAM_UPDATED, updatedTeamDto));
 

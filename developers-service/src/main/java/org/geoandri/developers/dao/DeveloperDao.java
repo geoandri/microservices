@@ -2,10 +2,12 @@ package org.geoandri.developers.dao;
 
 import org.geoandri.developers.entity.Developer;
 import org.geoandri.developers.exception.EntityNotFoundException;
+import org.geoandri.developers.exception.EntityPersistenceException;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import java.util.List;
 
@@ -33,10 +35,16 @@ public class DeveloperDao {
         return query.getResultList();
     }
 
-    public Developer saveDeveloper(Developer developer) {
-        entityManager.persist(developer);
+    public Developer saveDeveloper(Developer developer) throws EntityPersistenceException {
+        try {
+            entityManager.persist(developer);
 
-        return developer;
+            return developer;
+        }
+        catch (PersistenceException e) {
+            throw new EntityPersistenceException(e.getMessage());
+        }
+
     }
 
     public Developer getDeveloper(long id) throws EntityNotFoundException {
@@ -49,13 +57,18 @@ public class DeveloperDao {
         throw new EntityNotFoundException(String.format("Developer with id %s could not be found.", id));
     }
 
-    public Developer updateDeveloper(Developer developer) throws EntityNotFoundException {
+    public Developer updateDeveloper(Developer developer) throws EntityNotFoundException, EntityPersistenceException {
         Developer persistedDeveloper = getDeveloper(developer.getId());
         persistedDeveloper.setName(developer.getName());
         persistedDeveloper.setTeam(developer.getTeam());
-        entityManager.merge(persistedDeveloper);
+        try {
+            entityManager.merge(persistedDeveloper);
 
-        return persistedDeveloper;
+            return persistedDeveloper;
+        }
+        catch (PersistenceException e) {
+            throw new EntityPersistenceException(e.getMessage());
+        }
     }
 
     public void deleteDeveloper(long id) throws EntityNotFoundException {

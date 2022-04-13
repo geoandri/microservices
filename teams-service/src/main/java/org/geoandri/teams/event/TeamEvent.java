@@ -2,6 +2,8 @@ package org.geoandri.teams.event;
 
 import org.geoandri.teams.dto.TeamDto;
 
+import java.util.Objects;
+
 public class TeamEvent {
 
     private EventType eventType;
@@ -34,5 +36,19 @@ public class TeamEvent {
                 "eventType=" + eventType +
                 ", teamDto=" + teamDto +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TeamEvent teamEvent = (TeamEvent) o;
+        return eventType == teamEvent.eventType &&
+                teamDto.equals(teamEvent.teamDto);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(eventType, teamDto);
     }
 }

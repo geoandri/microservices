@@ -3,6 +3,7 @@ package org.geoandri.teams.service;
 import org.geoandri.teams.dao.TeamDao;
 import org.geoandri.teams.entity.Team;
 import org.geoandri.teams.exception.TeamNotFoundException;
+import org.geoandri.teams.exception.TeamPersistenceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +21,7 @@ public class TeamService {
     @Inject
     TeamDao teamDao;
 
-    public Team save(Team team) {
+    public Team save(Team team) throws TeamPersistenceException {
         return teamDao.saveTeam(team);
     }
 
@@ -32,7 +33,7 @@ public class TeamService {
         return teamDao.getTeam(id);
     }
 
-    public Team update(long id, Team team) throws TeamNotFoundException {
+    public Team update(long id, Team team) throws TeamNotFoundException, TeamPersistenceException {
         return teamDao.updateTeam(id, team);
     }
 

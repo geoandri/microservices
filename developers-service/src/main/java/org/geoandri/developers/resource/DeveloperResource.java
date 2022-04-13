@@ -1,8 +1,8 @@
 package org.geoandri.developers.resource;
 
-import io.quarkus.test.junit.mockito.InjectSpy;
 import org.geoandri.developers.dto.DeveloperDto;
 import org.geoandri.developers.exception.EntityNotFoundException;
+import org.geoandri.developers.exception.EntityPersistenceException;
 import org.geoandri.developers.mapper.DeveloperMapper;
 import org.geoandri.developers.service.DeveloperService;
 import org.slf4j.Logger;
@@ -53,7 +53,7 @@ public class DeveloperResource {
     }
 
     @POST
-    public Response saveDeveloper(@Valid DeveloperDto developerDto) throws EntityNotFoundException {
+    public Response saveDeveloper(@Valid DeveloperDto developerDto) throws EntityNotFoundException, EntityPersistenceException {
         DeveloperDto persistedDeveloperDto = developerMapper.
                 toDeveloperDto(developerService.save(developerMapper.toDeveloper(developerDto)));
 
@@ -65,7 +65,7 @@ public class DeveloperResource {
 
     @PUT
     @Path("/{id}")
-    public Response updateDeveloper(@PathParam("id") long id, DeveloperDto developerDto) throws EntityNotFoundException {
+    public Response updateDeveloper(@PathParam("id") long id, DeveloperDto developerDto) throws EntityNotFoundException, EntityPersistenceException {
         developerDto.setId(id);
         DeveloperDto updatedDeveloperDto = developerMapper.
                 toDeveloperDto(developerService.update(developerMapper.toDeveloper(developerDto)));
