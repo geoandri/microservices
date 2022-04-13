@@ -28,8 +28,8 @@ public class DeveloperService {
             return developerDao.saveDeveloper(developer);
     }
 
-    public List<Developer> getAll(int pageNum, int pageSize) {
-        return developerDao.getDevelopers(pageNum,pageSize);
+    public List<Developer> getAll(int pageNum, int pageSize, long teamId) {
+        return developerDao.getDevelopers(pageNum,pageSize, teamId);
     }
 
     public Developer get(long id) throws EntityNotFoundException {

@@ -15,10 +15,18 @@ public class DeveloperDao {
     @Inject
     EntityManager entityManager;
 
-    public List<Developer> getDevelopers(int pageNum, int pageSize) {
+    public List<Developer> getDevelopers(int pageNum, int pageSize, long teamId) {
         pageNum = pageNum > 0 ? pageNum : 1;
-        Query query = entityManager.createQuery("select d from Developer d order by d.id asc");
+        StringBuilder queryBuilder = new StringBuilder("select d from Developer d ");
+        queryBuilder = teamId == 0 ? queryBuilder.append("order by d.id asc") :
+                queryBuilder.append("where d.team.id = :teamId order by d.id asc");
+        Query query = entityManager.createQuery(queryBuilder.toString());
         int firstResult = (pageNum - 1) * pageSize;
+
+        if(teamId != 0) {
+            query.setParameter("teamId", teamId);
+        }
+
         query.setFirstResult(firstResult);
         query.setMaxResults(pageSize);
 

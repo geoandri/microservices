@@ -1,13 +1,18 @@
 package org.geoandri.teams.resource;
 
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.mockito.InjectSpy;
 import io.restassured.http.ContentType;
 import org.geoandri.teams.dto.TeamDto;
+import org.geoandri.teams.event.EventType;
+import org.geoandri.teams.event.TeamEvent;
 import org.geoandri.teams.exception.error.ErrorMessage;
+import org.geoandri.teams.producer.TeamProducer;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.mockito.Mockito;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
@@ -17,7 +22,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @QuarkusTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class TeamResourceTest {
+public class TeamResourceIT {
+
+    @InjectSpy
+    TeamProducer teamProducer;
 
     @Test
     @Order(1)
@@ -59,15 +67,19 @@ public class TeamResourceTest {
         teamDto.setName("A test team");
         teamDto.setDescription("A test description");
 
-        given()
-                .contentType(ContentType.JSON)
-                .with().body(teamDto)
-                .when().post("/teams")
-                .then()
-                .contentType(ContentType.JSON)
-                .statusCode(201)
-                .body("name", equalTo("A test team"))
-                .body("description", equalTo("A test description"));
+        TeamDto responseTeamDto = given()
+                                        .contentType(ContentType.JSON)
+                                        .with().body(teamDto)
+                                        .when().post("/teams")
+                                        .then()
+                                        .contentType(ContentType.JSON)
+                                        .statusCode(201)
+                                        .extract().body().as(TeamDto.class);
+
+        assertEquals("A test team", responseTeamDto.getName());
+        assertEquals("A test description", responseTeamDto.getDescription());
+
+        Mockito.verify(teamProducer, Mockito.times(1)).publishEvent(new TeamEvent(EventType.TEAM_CREATED, responseTeamDto));
     }
 
     @Test
@@ -86,6 +98,8 @@ public class TeamResourceTest {
 
         assertEquals(1, response.getErrors().size());
         assertTrue(response.getErrors().contains("Team's name is required."));
+
+        Mockito.verify(teamProducer, Mockito.never()).publishEvent(new TeamEvent(EventType.TEAM_CREATED, Mockito.any()));
     }
 
     @Test

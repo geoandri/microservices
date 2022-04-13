@@ -1,5 +1,6 @@
 package org.geoandri.developers.resource;
 
+import io.quarkus.test.junit.mockito.InjectSpy;
 import org.geoandri.developers.dto.DeveloperDto;
 import org.geoandri.developers.exception.EntityNotFoundException;
 import org.geoandri.developers.mapper.DeveloperMapper;
@@ -30,8 +31,9 @@ public class DeveloperResource {
 
     @GET
     public Response getDevelopers(@DefaultValue("1") @QueryParam("pageNum") int pageNum,
-                                  @DefaultValue("20") @QueryParam("pageSize") int pageSize) {
-        List<DeveloperDto> developerDtoList = developerMapper.map(developerService.getAll(pageNum, pageSize));
+                                  @DefaultValue("20") @QueryParam("pageSize") int pageSize,
+                                  @QueryParam("teamId") long teamId) {
+        List<DeveloperDto> developerDtoList = developerMapper.map(developerService.getAll(pageNum, pageSize, teamId));
 
         return Response
                 .status(Response.Status.OK)

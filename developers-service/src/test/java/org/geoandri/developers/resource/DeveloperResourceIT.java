@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @QuarkusTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class DeveloperResourceTest {
+public class DeveloperResourceIT {
 
 
     @Test
@@ -45,6 +45,19 @@ public class DeveloperResourceTest {
 
     @Test
     @Order(3)
+    public void testGetAllDevelopersPerTeamEndpoint() {
+        DeveloperDto[] response = given()
+                        .when().get("/developers?teamId=2")
+                        .then()
+                        .statusCode(200)
+                        .extract().body().as(DeveloperDto[].class);
+
+        assertEquals("Developer 2A", response[0].getName());
+        assertEquals("Developer 2B", response[1].getName());
+    }
+
+    @Test
+    @Order(4)
     public void testGetDeveloperEndpoint() {
         given()
                 .when().get("/developers/1")
@@ -55,7 +68,7 @@ public class DeveloperResourceTest {
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     public void testPostDeveloperEndpoint() {
         DeveloperDto developerDto = new DeveloperDto();
         developerDto.setName("A new developer");
@@ -73,7 +86,7 @@ public class DeveloperResourceTest {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     public void testPutDeveloperEndpoint() {
         DeveloperDto developerDto = new DeveloperDto();
         developerDto.setName("An updated developer");
@@ -92,7 +105,7 @@ public class DeveloperResourceTest {
 
 
     @Test
-    @Order(6)
+    @Order(7)
     public void testDeleteDeveloperEndpoint() {
         given()
                 .contentType(ContentType.JSON)
@@ -102,7 +115,7 @@ public class DeveloperResourceTest {
     }
 
     @Test
-    @Order(7)
+    @Order(8)
     public void testPostDeveloperEndpointWhenValidationFails() {
         DeveloperDto developerDto = new DeveloperDto();
         developerDto.setTeam("Team A");
