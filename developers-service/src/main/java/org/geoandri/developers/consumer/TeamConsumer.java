@@ -1,5 +1,6 @@
 package org.geoandri.developers.consumer;
 
+import io.smallrye.reactive.messaging.annotations.Blocking;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.geoandri.developers.entity.Team;
 import org.geoandri.developers.event.TeamEvent;
@@ -24,6 +25,7 @@ public class TeamConsumer {
     TeamMapper teamMapper;
 
     @Incoming("team-events")
+    @Blocking
     public void consumeEvents(TeamEvent event) {
         LOGGER.debug("**********************************************************************Received event from Kafka: {}", event.toString());
         switch (event.getEventType()) {
