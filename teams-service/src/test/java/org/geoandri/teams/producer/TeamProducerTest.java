@@ -16,8 +16,8 @@ import org.junit.jupiter.api.Assertions;
 
 import java.time.Duration;
 
-@QuarkusTest
 @QuarkusTestResource(KafkaCompanionResource.class)
+@QuarkusTest
 public class TeamProducerTest {
 
     @InjectKafkaCompanion
@@ -28,6 +28,8 @@ public class TeamProducerTest {
 
     @Test
     public void testTeamProducer() {
+
+        System.out.println("++++++++++++++++++++++++++++++starting test");
         TeamDto teamDto = new TeamDto();
         teamDto.setId(50);
         teamDto.setName("Another new Team");
@@ -39,6 +41,8 @@ public class TeamProducerTest {
         ConsumerTask<Integer, TeamEvent> consumerTask = companion.consume(Integer.class, TeamEvent.class)
                 .fromTopics("team-events");
         ConsumerRecord<Integer, TeamEvent> receivedEvent = consumerTask.awaitCompletion().getFirstRecord();
+
+        System.out.println("++++++++++++++++++" + receivedEvent.value().getEventType());
 
         Assertions.assertEquals(EventType.TEAM_UPDATED, receivedEvent.value().getEventType());
     }
