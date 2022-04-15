@@ -43,8 +43,7 @@ public class TeamConsumerTest {
         companion.registerSerde(TeamEvent.class, new TeamEventSerializer(), new TeamEventDeserializer());
 
         companion.produce(Integer.class, TeamEvent.class)
-                .fromRecords(new ProducerRecord<>("team-events", 1, teamEvent))
-                .awaitCompletion();
+                .fromRecords(new ProducerRecord<>("team-events", 1, teamEvent));
 
         ConsumerTask<Integer, TeamEvent> consumerTask = companion.consume(Integer.class, TeamEvent.class)
                 .fromTopics("team-events");
