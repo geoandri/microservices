@@ -1,36 +1,33 @@
 package org.geoandri.developers.consumer;
 
+import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.geoandri.developers.dao.TeamDao;
+import io.quarkus.test.kafka.InjectKafkaCompanion;
+import io.quarkus.test.kafka.KafkaCompanionResource;
+import io.smallrye.reactive.messaging.kafka.companion.KafkaCompanion;
+import org.geoandri.developers.dto.TeamDto;
+import org.geoandri.developers.event.EventType;
+import org.geoandri.developers.event.TeamEvent;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
-
 @QuarkusTest
+@QuarkusTestResource(KafkaCompanionResource.class)
 public class TeamConsumerTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TeamConsumerTest.class);
 
-    @Inject
-    @RestClient
-    TeamServiceClient teamServiceClient;
+    @InjectKafkaCompanion
+    KafkaCompanion companion;
 
-    @Inject
-    TeamDao teamDao;
+    @Test
+    public void testTeamConsumer() {
+        TeamDto teamDto = new TeamDto();
+        teamDto.setId(50);
+        teamDto.setName("Another new Team");
+        teamDto.setDescription("Another description");
 
-//    @Test
-//    public void testTeamConsumer() {
-//        TeamDto teamDto = new TeamDto();
-//        teamDto.setName("Test new Team");
-//
-//        TeamDto persistedTeamDto = teamServiceClient.saveTeam(teamDto);
-//
-//        try {
-//            Assertions.assertEquals(teamDto.getId(), teamDao.getTeam(persistedTeamDto.getId()).getId());
-//        } catch (EntityNotFoundException e) {
-//            LOGGER.error(e.getMessage());
-//        }
-//    }
+        TeamEvent teamEvent = new TeamEvent(EventType.TEAM_CREATED, teamDto);
+    }
 }
