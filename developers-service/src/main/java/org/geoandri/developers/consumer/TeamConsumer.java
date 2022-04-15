@@ -25,7 +25,7 @@ public class TeamConsumer {
 
     @Incoming("team-events")
     public void consumeEvents(TeamEvent event) {
-        LOGGER.debug("Received event from Kafka: {}", event.toString());
+        LOGGER.debug("**********************************************************************Received event from Kafka: {}", event.toString());
         switch (event.getEventType()) {
             case TEAM_CREATED: {
                 try {
