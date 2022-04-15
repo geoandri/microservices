@@ -6,7 +6,9 @@ import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectSpy;
 import io.quarkus.test.kafka.InjectKafkaCompanion;
 import io.quarkus.test.kafka.KafkaCompanionResource;
+import io.smallrye.reactive.messaging.kafka.companion.ConsumerTask;
 import io.smallrye.reactive.messaging.kafka.companion.KafkaCompanion;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.geoandri.developers.dto.TeamDto;
 import org.geoandri.developers.event.EventType;
@@ -42,7 +44,17 @@ public class TeamConsumerTest {
 
         companion.produce(Integer.class, TeamEvent.class)
                 .fromRecords(new ProducerRecord<>("team-events", 1, teamEvent))
-                .awaitCompletion();
+                .awaitCompletion()
+
+        ConsumerTask<Integer, TeamEvent> consumerTask = companion.consume(Integer.class, TeamEvent.class)
+                .fromTopics("team-events");
+        ConsumerRecord<Integer, TeamEvent> receivedEvent = consumerTask.awaitCompletion().getFirstRecord();
+
+        LOGGER.info("Receive event {}", receivedEvent.value());
+
+//        companion.awaitCompletion().g;
+
+
 
         Mockito.verify(teamConsumer, Mockito.times(1))
                         .consumeEvents(teamEvent);
