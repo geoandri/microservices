@@ -40,7 +40,7 @@ public class TeamConsumerTest {
 
         TeamEvent teamEvent = new TeamEvent(EventType.TEAM_CREATED, teamDto);
 
-        companion.registerSerde(TeamEvent.class, new TeamEventSerializer(), new TeamEventDeserializer());
+//        companion.registerSerde(TeamEvent.class, new TeamEventSerializer(), new TeamEventDeserializer());
 
         companion.produce(Integer.class, TeamEvent.class)
                 .fromRecords(new ProducerRecord<>("team-events", 1, teamEvent)).awaitCompletion();
