@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
+import java.time.Duration;
 
 @QuarkusTest
 @QuarkusTestResource(KafkaCompanionResource.class)
@@ -43,7 +44,7 @@ public class TeamProducerTest {
         companion.registerSerde(TeamEvent.class, new TeamEventSerializer(), new TeamEventDeserializer());
         ConsumerTask<Integer, TeamEvent> consumerTask = companion.consume(Integer.class, TeamEvent.class)
                 .fromTopics("team-events");
-        ConsumerRecord<Integer, TeamEvent> receivedEvent = consumerTask.awaitCompletion().getFirstRecord();
+        ConsumerRecord<Integer, TeamEvent> receivedEvent = consumerTask.awaitCompletion(Duration.ofSeconds(5)).getFirstRecord();
 
         System.out.println("++++++++++++++++++" + receivedEvent.value().getEventType());
 
