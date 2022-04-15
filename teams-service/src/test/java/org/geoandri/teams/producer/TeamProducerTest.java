@@ -39,12 +39,13 @@ public class TeamProducerTest {
 
         TeamEvent teamEvent = new TeamEvent(EventType.TEAM_CREATED, teamDto);
 
-        teamProducer.publishEvent(teamEvent);
-
         companion.registerSerde(TeamEvent.class, new TeamEventSerializer(), new TeamEventDeserializer());
         ConsumerTask<Integer, TeamEvent> consumerTask = companion.consume(Integer.class, TeamEvent.class)
-                .fromTopics("team-events").awaitCompletion();
-        ConsumerRecord<Integer, TeamEvent> receivedEvent = consumerTask.getFirstRecord();
+                .fromTopics("team-events");
+
+        teamProducer.publishEvent(teamEvent);
+        
+        ConsumerRecord<Integer, TeamEvent> receivedEvent = consumerTask.awaitCompletion().getFirstRecord();
 
         System.out.println("++++++++++++++++++" + receivedEvent.value().getEventType());
 
