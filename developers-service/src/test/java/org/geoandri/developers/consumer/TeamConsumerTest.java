@@ -32,7 +32,6 @@ public class TeamConsumerTest {
 
     @Test
     public void testTeamConsumer() {
-        System.out.println("++++++++++++++++++++++++++++++starting test");
         TeamDto teamDto = new TeamDto();
         teamDto.setId(50);
         teamDto.setName("Another new Team");
@@ -45,20 +44,7 @@ public class TeamConsumerTest {
         companion.produce(Integer.class, TeamEvent.class)
                 .fromRecords(new ProducerRecord<>("team-events", 1, teamEvent)).awaitCompletion();
 
-//        ConsumerTask<Integer, TeamEvent> consumerTask = companion.consume(Integer.class, TeamEvent.class)
-//                .fromTopics("team-events");
-////        ConsumerRecord<Integer, TeamEvent> receivedEvent
-//                int size = consumerTask.awaitCompletion().getRecords().size();
-//
-//        LOGGER.info("Receive event {}", size);
-
-//        companion.awaitCompletion().g;
-
-
-
         Mockito.verify(teamConsumer, Mockito.timeout(5000).times(1))
                         .consumeEvents(teamEvent);
-
-        System.out.println("++++++++++++++++++ test end");
     }
 }

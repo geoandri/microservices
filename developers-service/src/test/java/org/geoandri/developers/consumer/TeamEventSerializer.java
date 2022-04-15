@@ -5,10 +5,14 @@ import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.header.Headers;
 import org.apache.kafka.common.serialization.Serializer;
 import org.geoandri.developers.event.TeamEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
 public class TeamEventSerializer implements Serializer<TeamEvent> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TeamEventSerializer.class);
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -21,13 +25,12 @@ public class TeamEventSerializer implements Serializer<TeamEvent> {
     public byte[] serialize(String s, TeamEvent data) {
         try {
             if (data == null){
-                System.out.println("Null received at serializing");
+                LOGGER.info("Null received at serializing");
                 return null;
             }
-            System.out.println("Serializing...");
             return objectMapper.writeValueAsBytes(data);
         } catch (Exception e) {
-            throw new SerializationException("Error when serializing MessageDto to byte[]");
+            throw new SerializationException("Error when serializing TeamEvent to byte[]");
         }
     }
 

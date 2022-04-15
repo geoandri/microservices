@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Map;
 
 public class TeamEventDeserializer implements Deserializer<TeamEvent> {
-    private static Logger LOGGER = LoggerFactory.getLogger(TeamEventDeserializer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TeamEventDeserializer.class);
     private ObjectMapper objectMapper = new ObjectMapper();
     @Override
     public void configure(Map<String, ?> configs, boolean isKey) {
@@ -23,17 +23,14 @@ public class TeamEventDeserializer implements Deserializer<TeamEvent> {
     public TeamEvent deserialize(String s, byte[] bytes) {
         try {
             if (bytes == null){
-                System.out.println("Null received at deserializing");
+                LOGGER.info("Null received at deserializing");
                 return null;
             }
-            System.out.println("Deserializing...");
             return objectMapper.readValue(new String(bytes, "UTF-8"), TeamEvent.class);
         } catch (Exception e) {
-            LOGGER.info(e.getMessage());
-            throw new SerializationException("Error when deserializing byte[] to MessageDto");
+            throw new SerializationException("Error when deserializing byte[] to TeamEvent");
         }
     }
-
 
     @Override
     public void close() {
