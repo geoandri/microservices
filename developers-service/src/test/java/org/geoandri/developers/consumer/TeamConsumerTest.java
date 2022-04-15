@@ -8,6 +8,7 @@ import io.smallrye.reactive.messaging.kafka.companion.KafkaCompanion;
 import org.geoandri.developers.dto.TeamDto;
 import org.geoandri.developers.event.EventType;
 import org.geoandri.developers.event.TeamEvent;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,11 +24,15 @@ public class TeamConsumerTest {
 
     @Test
     public void testTeamConsumer() {
+        System.out.println("++++++++++++++++++++++++++++++starting test");
         TeamDto teamDto = new TeamDto();
         teamDto.setId(50);
         teamDto.setName("Another new Team");
         teamDto.setDescription("Another description");
 
         TeamEvent teamEvent = new TeamEvent(EventType.TEAM_CREATED, teamDto);
+
+        Assertions.assertEquals(0,1);
+        System.out.println("++++++++++++++++++ test end");
     }
 }
