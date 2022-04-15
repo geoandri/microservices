@@ -48,9 +48,10 @@ public class TeamConsumerTest {
 
         ConsumerTask<Integer, TeamEvent> consumerTask = companion.consume(Integer.class, TeamEvent.class)
                 .fromTopics("team-events");
-        ConsumerRecord<Integer, TeamEvent> receivedEvent = consumerTask.awaitCompletion().getFirstRecord();
+//        ConsumerRecord<Integer, TeamEvent> receivedEvent
+                int size = consumerTask.awaitCompletion().getRecords().size();
 
-        LOGGER.info("Receive event {}", receivedEvent.value());
+        LOGGER.info("Receive event {}", size);
 
 //        companion.awaitCompletion().g;
 
