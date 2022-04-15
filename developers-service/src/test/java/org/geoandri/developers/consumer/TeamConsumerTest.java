@@ -44,7 +44,7 @@ public class TeamConsumerTest {
 
         companion.produce(Integer.class, TeamEvent.class)
                 .fromRecords(new ProducerRecord<>("team-events", 1, teamEvent))
-                .awaitCompletion()
+                .awaitCompletion();
 
         ConsumerTask<Integer, TeamEvent> consumerTask = companion.consume(Integer.class, TeamEvent.class)
                 .fromTopics("team-events");
