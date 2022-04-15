@@ -11,6 +11,7 @@ import io.smallrye.reactive.messaging.kafka.companion.KafkaCompanion;
 import io.smallrye.reactive.messaging.kafka.companion.ProducerBuilder;
 import io.smallrye.reactive.messaging.kafka.companion.ProducerTask;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.geoandri.developers.dto.TeamDto;
 import org.geoandri.developers.event.EventType;
 import org.geoandri.developers.event.TeamEvent;
@@ -36,6 +37,7 @@ public class TeamConsumerTest {
     TeamConsumer teamConsumer;
 
     @Test
+    @Incoming("team-events")
     public void testTeamConsumer() {
         System.out.println("++++++++++++++++++++++++++++++starting test");
         TeamDto teamDto = new TeamDto();
