@@ -6,6 +6,9 @@ public class TeamEvent {
     private EventType eventType;
     private TeamDto teamDto;
 
+    public TeamEvent() {
+    }
+
     public TeamEvent(EventType eventType, TeamDto teamDto) {
         this.eventType = eventType;
         this.teamDto = teamDto;
