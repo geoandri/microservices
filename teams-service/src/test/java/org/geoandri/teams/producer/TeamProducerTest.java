@@ -10,14 +10,15 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.geoandri.teams.dto.TeamDto;
 import org.geoandri.teams.event.EventType;
 import org.geoandri.teams.event.TeamEvent;
-import org.gradle.internal.impldep.javax.inject.Inject;
-import org.junit.Test;
+
+
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import java.time.Duration;
+import javax.inject.Inject;
 
-@QuarkusTestResource(KafkaCompanionResource.class)
 @QuarkusTest
+@QuarkusTestResource(KafkaCompanionResource.class)
 public class TeamProducerTest {
 
     @InjectKafkaCompanion
@@ -29,7 +30,7 @@ public class TeamProducerTest {
     @Test
     public void testTeamProducer() {
 
-        System.out.println("++++++++++++++++++++++++++++++starting test");
+        System.out.println("*************************************************************starting test");
         TeamDto teamDto = new TeamDto();
         teamDto.setId(50);
         teamDto.setName("Another new Team");
