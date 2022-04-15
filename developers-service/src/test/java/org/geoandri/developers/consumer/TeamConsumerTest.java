@@ -1,5 +1,7 @@
 package org.geoandri.developers.consumer;
 
+import io.quarkus.kafka.client.serialization.ObjectMapperDeserializer;
+import io.quarkus.kafka.client.serialization.ObjectMapperSerializer;
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectSpy;
@@ -42,6 +44,8 @@ public class TeamConsumerTest {
         teamDto.setDescription("Another description");
 
         TeamEvent teamEvent = new TeamEvent(EventType.TEAM_CREATED, teamDto);
+
+//        companion.registerSerde(Integer.class, new ObjectMapperSerializer<TeamEvent>(), new TeamEventDeserializer());
 
         companion.produce(Integer.class, TeamEvent.class)
                 .fromRecords(new ProducerRecord<>("team-events", 1, teamEvent))
