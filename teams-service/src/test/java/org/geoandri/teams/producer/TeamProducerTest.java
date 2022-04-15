@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Assertions;
 import java.time.Duration;
 
 @QuarkusTest
-//@QuarkusTestResource(KafkaCompanionResource.class)
+@QuarkusTestResource(KafkaCompanionResource.class)
 public class TeamProducerTest {
 
     @InjectKafkaCompanion
