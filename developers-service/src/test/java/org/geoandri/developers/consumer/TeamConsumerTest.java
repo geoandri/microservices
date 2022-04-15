@@ -50,7 +50,7 @@ public class TeamConsumerTest {
 //        ConsumerRecord<Integer, TeamEvent> receivedEvent
                 int size = consumerTask.awaitCompletion().getRecords().size();
 //
-//        LOGGER.info("Receive event {}", size);
+        LOGGER.info("Receive event {}", size);
 
 //        companion.awaitCompletion().g;
 
