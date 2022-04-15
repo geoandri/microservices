@@ -56,7 +56,7 @@ public class TeamConsumerTest {
 
 
 
-        Mockito.verify(teamConsumer, Mockito.times(1))
+        Mockito.verify(teamConsumer, Mockito.timeout(5000).times(1))
                         .consumeEvents(teamEvent);
 
         System.out.println("++++++++++++++++++ test end");
