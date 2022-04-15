@@ -1,9 +1,9 @@
-package org.geoandri.developers.consumer;
+package org.geoandri.teams.producer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.serialization.Deserializer;
-import org.geoandri.developers.event.TeamEvent;
+import org.geoandri.teams.event.TeamEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
