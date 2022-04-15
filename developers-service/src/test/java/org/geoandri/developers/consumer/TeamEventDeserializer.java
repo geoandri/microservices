@@ -1,10 +1,38 @@
 package org.geoandri.developers.consumer;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.kafka.client.serialization.ObjectMapperDeserializer;
+import org.apache.kafka.common.errors.SerializationException;
+import org.apache.kafka.common.header.Headers;
+import org.apache.kafka.common.serialization.Deserializer;
 import org.geoandri.developers.event.TeamEvent;
 
-public class TeamEventDeserializer extends ObjectMapperDeserializer<TeamEvent> {
-    public TeamEventDeserializer() {
-        super(TeamEvent.class);
+import java.util.Map;
+
+public class TeamEventDeserializer implements Deserializer<TeamEvent> {
+    private ObjectMapper objectMapper = new ObjectMapper();
+    @Override
+    public void configure(Map<String, ?> configs, boolean isKey) {
+        Deserializer.super.configure(configs, isKey);
+    }
+
+    @Override
+    public TeamEvent deserialize(String s, byte[] bytes) {
+        try {
+            if (bytes == null){
+                System.out.println("Null received at deserializing");
+                return null;
+            }
+            System.out.println("Deserializing...");
+            return objectMapper.readValue(new String(bytes, "UTF-8"), TeamEvent.class);
+        } catch (Exception e) {
+            throw new SerializationException("Error when deserializing byte[] to MessageDto");
+        }
+    }
+
+
+    @Override
+    public void close() {
+        Deserializer.super.close();
     }
 }
