@@ -38,14 +38,14 @@ public class TeamConsumerTest {
 
     @Test
     @Incoming("team-events")
-    public void testTeamConsumer() {
+    public void testTeamConsumer(TeamEvent teamEvent) {
         System.out.println("++++++++++++++++++++++++++++++starting test");
         TeamDto teamDto = new TeamDto();
         teamDto.setId(50);
         teamDto.setName("Another new Team");
         teamDto.setDescription("Another description");
 
-        TeamEvent teamEvent = new TeamEvent(EventType.TEAM_CREATED, teamDto);
+        teamEvent = new TeamEvent(EventType.TEAM_CREATED, teamDto);
 
 //        companion.registerSerde(Integer.class, new ObjectMapperSerializer<TeamEvent>(), new TeamEventDeserializer());
 
