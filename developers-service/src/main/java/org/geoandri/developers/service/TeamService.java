@@ -3,8 +3,6 @@ package org.geoandri.developers.service;
 import org.geoandri.developers.dao.DeveloperDao;
 import org.geoandri.developers.dao.TeamDao;
 import org.geoandri.developers.entity.Team;
-import org.geoandri.developers.exception.EntityNotFoundException;
-import org.geoandri.developers.exception.EntityPersistenceException;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -20,15 +18,15 @@ public class TeamService {
     @Inject
     DeveloperDao developerDao;
 
-    public Team save(Team team) throws EntityPersistenceException {
+    public Team save(Team team) {
         return teamDao.saveTeam(team);
     }
 
-    public Team update(Team team) throws EntityNotFoundException, EntityPersistenceException {
+    public Team update(Team team) {
         return teamDao.updateTeam(team);
     }
 
-    public void delete(long id) throws EntityNotFoundException {
+    public void delete(long id) {
         developerDao.deleteDevelopersByTeamId(id);
         teamDao.deleteTeam(id);
     }

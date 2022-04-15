@@ -3,7 +3,6 @@ package org.geoandri.teams.dao;
 import org.geoandri.teams.entity.Team;
 import org.geoandri.teams.exception.TeamNotFoundException;
 import org.geoandri.teams.exception.TeamPersistenceException;
-import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +30,7 @@ public class TeamDao {
         return query.getResultList();
     }
 
-    public Team saveTeam(Team team) throws TeamPersistenceException {
+    public Team saveTeam(Team team) {
         try {
             entityManager.persist(team);
 
@@ -42,7 +41,7 @@ public class TeamDao {
         }
     }
 
-    public Team getTeam(long id) throws TeamNotFoundException {
+    public Team getTeam(long id) {
         Team team = entityManager.find(Team.class, id);
         if (team != null) {
 
@@ -52,7 +51,7 @@ public class TeamDao {
         throw new TeamNotFoundException(String.format("Team with id %s could not be found.", id));
     }
 
-    public Team updateTeam(long id, Team team) throws TeamNotFoundException, TeamPersistenceException {
+    public Team updateTeam(long id, Team team) {
         Team persistedTeam = getTeam(id);
         persistedTeam.setName(team.getName());
         persistedTeam.setDescription(team.getDescription());
@@ -67,7 +66,7 @@ public class TeamDao {
         }
     }
 
-    public void deleteTeam(long id) throws TeamNotFoundException {
+    public void deleteTeam(long id) {
         Team team = getTeam(id);
         entityManager.remove(team);
     }

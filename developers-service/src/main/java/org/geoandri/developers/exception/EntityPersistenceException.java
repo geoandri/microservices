@@ -1,6 +1,6 @@
 package org.geoandri.developers.exception;
 
-public class EntityPersistenceException extends Exception {
+public class EntityPersistenceException extends RuntimeException {
     public EntityPersistenceException() {
     }
 

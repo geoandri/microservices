@@ -17,7 +17,7 @@ public class TeamDao {
     @Inject
     EntityManager entityManager;
 
-    public Team saveTeam(Team team) throws EntityPersistenceException {
+    public Team saveTeam(Team team) {
         try {
             entityManager.persist(team);
 
@@ -28,7 +28,7 @@ public class TeamDao {
         }
     }
 
-    public Team getTeam(long id) throws EntityNotFoundException {
+    public Team getTeam(long id) {
         Team team = entityManager.find(Team.class, id);
         if (team != null) {
 
@@ -38,7 +38,7 @@ public class TeamDao {
         throw new EntityNotFoundException(String.format("Team with id %s could not be found.", id));
     }
 
-    public Team updateTeam(Team team) throws EntityNotFoundException, EntityPersistenceException {
+    public Team updateTeam(Team team) {
         Team persistedTeam = getTeam(team.getId());
         persistedTeam.setName(team.getName());
         persistedTeam.setDescription(team.getDescription());
@@ -53,12 +53,12 @@ public class TeamDao {
         }
     }
 
-    public void deleteTeam(long id) throws EntityNotFoundException {
+    public void deleteTeam(long id) {
         Team team = getTeam(id);
         entityManager.remove(team);
     }
 
-    public Team findByName(String name) throws EntityNotFoundException {
+    public Team findByName(String name) {
         Query query = entityManager.createQuery("select t from Team t where t.name = :name");
         query.setParameter("name", name);
         Optional<Team> team = query.getResultList().stream().findFirst();

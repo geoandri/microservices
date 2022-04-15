@@ -1,8 +1,6 @@
 package org.geoandri.developers.resource;
 
 import org.geoandri.developers.dto.DeveloperDto;
-import org.geoandri.developers.exception.EntityNotFoundException;
-import org.geoandri.developers.exception.EntityPersistenceException;
 import org.geoandri.developers.mapper.DeveloperMapper;
 import org.geoandri.developers.service.DeveloperService;
 import org.slf4j.Logger;
@@ -43,7 +41,7 @@ public class DeveloperResource {
 
     @GET
     @Path("/{id}")
-    public Response getDeveloper(@PathParam("id") long id) throws EntityNotFoundException {
+    public Response getDeveloper(@PathParam("id") long id) {
         DeveloperDto developerDto = developerMapper.toDeveloperDto(developerService.get(id));
 
         return Response
@@ -53,7 +51,7 @@ public class DeveloperResource {
     }
 
     @POST
-    public Response saveDeveloper(@Valid DeveloperDto developerDto) throws EntityNotFoundException, EntityPersistenceException {
+    public Response saveDeveloper(@Valid DeveloperDto developerDto) {
         DeveloperDto persistedDeveloperDto = developerMapper.
                 toDeveloperDto(developerService.save(developerMapper.toDeveloper(developerDto)));
 
@@ -65,7 +63,7 @@ public class DeveloperResource {
 
     @PUT
     @Path("/{id}")
-    public Response updateDeveloper(@PathParam("id") long id, DeveloperDto developerDto) throws EntityNotFoundException, EntityPersistenceException {
+    public Response updateDeveloper(@PathParam("id") long id, DeveloperDto developerDto) {
         developerDto.setId(id);
         DeveloperDto updatedDeveloperDto = developerMapper.
                 toDeveloperDto(developerService.update(developerMapper.toDeveloper(developerDto)));
@@ -78,7 +76,7 @@ public class DeveloperResource {
 
     @DELETE
     @Path("/{id}")
-    public Response deleteDeveloper(@PathParam("id") long id) throws EntityNotFoundException {
+    public Response deleteDeveloper(@PathParam("id") long id) {
         developerService.delete(id);
 
         return Response

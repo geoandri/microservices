@@ -35,7 +35,7 @@ public class DeveloperDao {
         return query.getResultList();
     }
 
-    public Developer saveDeveloper(Developer developer) throws EntityPersistenceException {
+    public Developer saveDeveloper(Developer developer) {
         try {
             entityManager.persist(developer);
 
@@ -47,7 +47,7 @@ public class DeveloperDao {
 
     }
 
-    public Developer getDeveloper(long id) throws EntityNotFoundException {
+    public Developer getDeveloper(long id) {
         Developer developer = entityManager.find(Developer.class, id);
         if (developer != null) {
 
@@ -57,7 +57,7 @@ public class DeveloperDao {
         throw new EntityNotFoundException(String.format("Developer with id %s could not be found.", id));
     }
 
-    public Developer updateDeveloper(Developer developer) throws EntityNotFoundException, EntityPersistenceException {
+    public Developer updateDeveloper(Developer developer) {
         Developer persistedDeveloper = getDeveloper(developer.getId());
         persistedDeveloper.setName(developer.getName());
         persistedDeveloper.setTeam(developer.getTeam());
@@ -71,7 +71,7 @@ public class DeveloperDao {
         }
     }
 
-    public void deleteDeveloper(long id) throws EntityNotFoundException {
+    public void deleteDeveloper(long id) {
         Developer developer = getDeveloper(id);
         entityManager.remove(developer);
     }

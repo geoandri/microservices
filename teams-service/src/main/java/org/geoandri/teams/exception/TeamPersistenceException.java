@@ -1,6 +1,6 @@
 package org.geoandri.teams.exception;
 
-public class TeamPersistenceException extends Exception {
+public class TeamPersistenceException extends RuntimeException {
     public TeamPersistenceException() {
     }
 
