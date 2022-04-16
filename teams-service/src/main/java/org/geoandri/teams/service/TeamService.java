@@ -21,7 +21,7 @@ public class TeamService {
     @Inject
     TeamDao teamDao;
 
-    public Team save(Team team) throws TeamPersistenceException {
+    public Team save(Team team) {
         return teamDao.saveTeam(team);
     }
 
@@ -29,15 +29,15 @@ public class TeamService {
         return teamDao.getTeams(pageNum, pageSize);
     }
 
-    public Team get(long id) throws TeamNotFoundException {
+    public Team get(long id) {
         return teamDao.getTeam(id);
     }
 
-    public Team update(long id, Team team) throws TeamNotFoundException, TeamPersistenceException {
+    public Team update(long id, Team team) {
         return teamDao.updateTeam(id, team);
     }
 
-    public void delete(long id) throws TeamNotFoundException {
+    public void delete(long id) {
         teamDao.deleteTeam(id);
     }
 
