@@ -21,7 +21,7 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 public class TeamResource {
 
-    private static final Logger logger = LoggerFactory.getLogger(TeamResource.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TeamResource.class);
 
     @Inject
     TeamService teamService;
@@ -56,6 +56,7 @@ public class TeamResource {
 
     @POST
     public Response saveTeam(@Valid TeamDto teamDto) {
+        LOGGER.debug("Received request to save teamDto: {}", teamDto);
         TeamDto persistedTeamDto = teamMapper.toTeamDto(teamService.save(teamMapper.toTeam(teamDto)));
         teamProducer.publishEvent(new TeamEvent(EventType.TEAM_CREATED, persistedTeamDto));
 

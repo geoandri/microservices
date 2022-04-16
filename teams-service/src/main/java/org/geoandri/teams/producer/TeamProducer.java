@@ -1,5 +1,6 @@
 package org.geoandri.teams.producer;
 
+import org.eclipse.microprofile.opentracing.Traced;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.geoandri.teams.event.TeamEvent;
@@ -16,6 +17,8 @@ public class TeamProducer {
     @Channel("team-events")
     Emitter<TeamEvent> eventEmitter;
 
+
+    @Traced
     public void publishEvent(TeamEvent teamEvent) {
         LOGGER.debug("Sending event to Kafka: {}", teamEvent);
         eventEmitter.send(teamEvent).toCompletableFuture().join();

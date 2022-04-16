@@ -1,6 +1,7 @@
 package org.geoandri.developers.consumer;
 
 import io.smallrye.reactive.messaging.annotations.Blocking;
+import org.eclipse.microprofile.opentracing.Traced;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.geoandri.developers.entity.Team;
 import org.geoandri.developers.event.TeamEvent;
@@ -14,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+
+@Traced
 @ApplicationScoped
 public class TeamConsumer {
     private static Logger LOGGER = LoggerFactory.getLogger(TeamConsumer.class);
