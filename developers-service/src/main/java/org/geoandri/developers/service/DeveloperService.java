@@ -1,5 +1,6 @@
 package org.geoandri.developers.service;
 
+import org.eclipse.microprofile.opentracing.Traced;
 import org.geoandri.developers.dao.DeveloperDao;
 import org.geoandri.developers.dao.TeamDao;
 import org.geoandri.developers.entity.Developer;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @ApplicationScoped
 @Transactional
+@Traced
 public class DeveloperService {
 
     @Inject

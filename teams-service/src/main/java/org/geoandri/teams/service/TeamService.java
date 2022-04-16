@@ -1,9 +1,8 @@
 package org.geoandri.teams.service;
 
+import org.eclipse.microprofile.opentracing.Traced;
 import org.geoandri.teams.dao.TeamDao;
 import org.geoandri.teams.entity.Team;
-import org.geoandri.teams.exception.TeamNotFoundException;
-import org.geoandri.teams.exception.TeamPersistenceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +13,7 @@ import java.util.List;
 
 @ApplicationScoped
 @Transactional
+@Traced
 public class TeamService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TeamService.class);
