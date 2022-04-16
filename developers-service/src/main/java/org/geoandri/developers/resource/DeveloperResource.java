@@ -1,5 +1,9 @@
 package org.geoandri.developers.resource;
 
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.geoandri.developers.dto.DeveloperDto;
 import org.geoandri.developers.mapper.DeveloperMapper;
 import org.geoandri.developers.service.DeveloperService;
@@ -28,6 +32,14 @@ public class DeveloperResource {
     DeveloperMapper developerMapper;
 
     @GET
+    @APIResponse(
+            responseCode = "200",
+            description = "Get All Developers",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(type = SchemaType.ARRAY, implementation = DeveloperDto.class)
+            )
+    )
     public Response getDevelopers(@DefaultValue("1") @QueryParam("pageNum") int pageNum,
                                   @DefaultValue("20") @QueryParam("pageSize") int pageSize,
                                   @QueryParam("teamId") long teamId) {
@@ -41,6 +53,19 @@ public class DeveloperResource {
 
     @GET
     @Path("/{id}")
+    @APIResponse(
+            responseCode = "200",
+            description = "Get a developer",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(type = SchemaType.OBJECT, implementation = DeveloperDto.class)
+            )
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Developer not found",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON)
+    )
     public Response getDeveloper(@PathParam("id") long id) {
         DeveloperDto developerDto = developerMapper.toDeveloperDto(developerService.get(id));
 
@@ -51,6 +76,24 @@ public class DeveloperResource {
     }
 
     @POST
+    @APIResponse(
+            responseCode = "201",
+            description = "Developer created",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(type = SchemaType.OBJECT, implementation = DeveloperDto.class)
+            )
+    )
+    @APIResponse(
+            responseCode = "400",
+            description = "Invalid DeveloperDto",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON)
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Team provided not found",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON)
+    )
     public Response saveDeveloper(@Valid DeveloperDto developerDto) {
         DeveloperDto persistedDeveloperDto = developerMapper.
                 toDeveloperDto(developerService.save(developerMapper.toDeveloper(developerDto)));
@@ -63,6 +106,29 @@ public class DeveloperResource {
 
     @PUT
     @Path("/{id}")
+    @APIResponse(
+            responseCode = "200",
+            description = "Developer updated",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(type = SchemaType.OBJECT, implementation = DeveloperDto.class)
+            )
+    )
+    @APIResponse(
+            responseCode = "400",
+            description = "Invalid DeveloperDto",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON)
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Developer not found",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON)
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Team not found",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON)
+    )
     public Response updateDeveloper(@PathParam("id") long id, DeveloperDto developerDto) {
         developerDto.setId(id);
         DeveloperDto updatedDeveloperDto = developerMapper.
@@ -76,6 +142,19 @@ public class DeveloperResource {
 
     @DELETE
     @Path("/{id}")
+    @APIResponse(
+            responseCode = "200",
+            description = "Developer deleted",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(type = SchemaType.OBJECT, implementation = DeveloperDto.class)
+            )
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Developer not found",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON)
+    )
     public Response deleteDeveloper(@PathParam("id") long id) {
         developerService.delete(id);
 
