@@ -14,8 +14,8 @@ import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-//@QuarkusTest
-//@QuarkusTestResource(KafkaCompanionResource.class)
+@QuarkusTest
+@QuarkusTestResource(KafkaCompanionResource.class)
 public class TeamConsumerTest {
 
     @InjectKafkaCompanion
