@@ -24,10 +24,6 @@ public class TeamService {
         return teamDao.saveTeam(team);
     }
 
-    public Team update(Team team) {
-        return teamDao.updateTeam(team);
-    }
-
     public void delete(long id) {
         developerDao.deleteDevelopersByTeamId(id);
         teamDao.deleteTeam(id);

@@ -6,14 +6,14 @@ import java.util.Objects;
 
 public class TeamEvent {
     private EventType eventType;
-    private TeamDto teamDto;
+    private long teamId;
 
     public TeamEvent() {
     }
 
-    public TeamEvent(EventType eventType, TeamDto teamDto) {
+    public TeamEvent(EventType eventType, long teamId) {
         this.eventType = eventType;
-        this.teamDto = teamDto;
+        this.teamId = teamId;
     }
 
     public EventType getEventType() {
@@ -24,19 +24,19 @@ public class TeamEvent {
         this.eventType = eventType;
     }
 
-    public TeamDto getTeamDto() {
-        return teamDto;
+    public long getTeamId() {
+        return teamId;
     }
 
-    public void setTeamDto(TeamDto teamDto) {
-        this.teamDto = teamDto;
+    public void setTeamId(long teamId) {
+        this.teamId = teamId;
     }
 
     @Override
     public String toString() {
         return "TeamEvent{" +
                 "eventType=" + eventType +
-                ", teamDto=" + teamDto +
+                ", teamId=" + teamId +
                 '}';
     }
 
@@ -45,11 +45,11 @@ public class TeamEvent {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TeamEvent teamEvent = (TeamEvent) o;
-        return eventType == teamEvent.eventType && teamDto.equals(teamEvent.teamDto);
+        return teamId == teamEvent.teamId && eventType == teamEvent.eventType;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(eventType, teamDto);
+        return Objects.hash(eventType, teamId);
     }
 }

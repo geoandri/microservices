@@ -8,7 +8,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 @Provider
-public class TeamPersistenceExceptionHandler implements ExceptionMapper<EntityPersistenceException> {
+public class EntityPersistenceExceptionHandler implements ExceptionMapper<EntityPersistenceException> {
     @Override
     public Response toResponse(EntityPersistenceException e) {
         return Response.status(Response.Status.BAD_REQUEST).entity(new ErrorMessage(e.getMessage())).build();

@@ -23,14 +23,14 @@ public class DeveloperService {
     TeamDao teamDao;
 
     public Developer save(Developer developer) {
-            Team team = teamDao.findByName(developer.getTeam().getName());
-            developer.setTeam(team);
+        Team team = teamDao.getTeam(developer.getTeam().getId());
+        developer.setTeam(team);
 
-            return developerDao.saveDeveloper(developer);
+        return developerDao.saveDeveloper(developer);
     }
 
     public List<Developer> getAll(int pageNum, int pageSize, long teamId) {
-        return developerDao.getDevelopers(pageNum,pageSize, teamId);
+        return developerDao.getDevelopers(pageNum, pageSize, teamId);
     }
 
     public Developer get(long id) {
@@ -38,7 +38,7 @@ public class DeveloperService {
     }
 
     public Developer update(Developer developer) {
-        Team team = teamDao.findByName(developer.getTeam().getName());
+        Team team = teamDao.getTeam(developer.getTeam().getId());
         developer.setTeam(team);
 
         return developerDao.updateDeveloper(developer);

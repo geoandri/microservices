@@ -98,7 +98,7 @@ public class TeamResource {
     public Response saveTeam(@Valid TeamDto teamDto) {
         LOGGER.debug("Received request to save team {}", teamDto);
         TeamDto persistedTeamDto = teamMapper.toTeamDto(teamService.save(teamMapper.toTeam(teamDto)));
-        teamProducer.publishEvent(new TeamEvent(EventType.TEAM_CREATED, persistedTeamDto));
+        teamProducer.publishEvent(new TeamEvent(EventType.TEAM_CREATED, persistedTeamDto.getId()));
 
         return Response
                 .status(Response.Status.CREATED)
@@ -129,7 +129,6 @@ public class TeamResource {
     public Response updateTeam(@PathParam("id") long id, TeamDto teamDto) {
         LOGGER.debug("Receive request to update developer with id: {} and updated data: {}", id, teamDto);
         TeamDto updatedTeamDto = teamMapper.toTeamDto(teamService.update(id, teamMapper.toTeam(teamDto)));
-        teamProducer.publishEvent(new TeamEvent(EventType.TEAM_UPDATED, updatedTeamDto));
 
         return Response
                 .status(Response.Status.OK)
@@ -153,11 +152,12 @@ public class TeamResource {
             content = @Content(mediaType = MediaType.APPLICATION_JSON)
     )
     public Response deleteTeam(@PathParam("id") long id) {
-        LOGGER.debug("Receive request to delete developer with id: {}", id);
+        LOGGER.debug("Received request to delete developer with id: {}", id);
         teamService.delete(id);
-        teamProducer.publishEvent(new TeamEvent(EventType.TEAM_DELETED, new TeamDto(id, "FOR DELETION")));
+        teamProducer.publishEvent(new TeamEvent(EventType.TEAM_DELETED, id));
 
         return Response
-                .status(Response.Status.OK).build();
+                .status(Response.Status.OK)
+                .build();
     }
 }
