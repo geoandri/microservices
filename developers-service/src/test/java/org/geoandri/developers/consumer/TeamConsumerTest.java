@@ -27,12 +27,8 @@ public class TeamConsumerTest {
     @Test
     @Ignore
     public void testTeamConsumer() {
-        TeamDto teamDto = new TeamDto();
-        teamDto.setId(50);
-        teamDto.setName("Another new Team");
-        teamDto.setDescription("Another description");
 
-        TeamEvent teamEvent = new TeamEvent(EventType.TEAM_CREATED, teamDto);
+        TeamEvent teamEvent = new TeamEvent(EventType.TEAM_CREATED, 50);
 
         companion.registerSerde(TeamEvent.class, new TeamEventSerializer(), new TeamEventDeserializer());
 

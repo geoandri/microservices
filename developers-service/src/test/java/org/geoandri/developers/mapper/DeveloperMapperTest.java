@@ -26,7 +26,6 @@ public class DeveloperMapperTest {
     private static void setup() {
         team = new Team();
         team.setId(1L);
-        team.setName("My awesome team");
 
         developer = new Developer();
         developer.setId(1L);
@@ -36,7 +35,7 @@ public class DeveloperMapperTest {
         developerDto = new DeveloperDto();
         developerDto.setId(1L);
         developerDto.setName("Developer1");
-        developerDto.setTeam("My awesome team");
+        developerDto.setTeamId(team.getId());
     }
 
     @Test
@@ -45,6 +44,6 @@ public class DeveloperMapperTest {
 
         assertEquals(developerDto.getId(), mappedDeveloperDto.getId());
         assertEquals(developerDto.getName(), mappedDeveloperDto.getName());
-        assertEquals(developerDto.getTeam(), mappedDeveloperDto.getTeam());
+        assertEquals(developerDto.getTeamId(), mappedDeveloperDto.getTeamId());
     }
 }

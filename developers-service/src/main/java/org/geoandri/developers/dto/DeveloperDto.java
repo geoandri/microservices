@@ -1,6 +1,7 @@
 package org.geoandri.developers.dto;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class DeveloperDto {
 
@@ -9,8 +10,8 @@ public class DeveloperDto {
     @NotEmpty(message = "Developer's name is required.")
     private String name;
 
-    @NotEmpty(message = "Developer's team is required.")
-    private String team;
+    @NotNull(message = "Developer's teamId is required.")
+    private Long teamId;
 
     public long getId() {
         return id;
@@ -28,11 +29,11 @@ public class DeveloperDto {
         this.name = name;
     }
 
-    public String getTeam() {
-        return team;
+    public long getTeamId() {
+        return teamId;
     }
 
-    public void setTeam(String team) {
-        this.team = team;
+    public void setTeamId(long teamId) {
+        this.teamId = teamId;
     }
 }

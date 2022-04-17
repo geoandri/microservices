@@ -1,7 +1,7 @@
 package org.geoandri.developers.dao;
 
 import org.geoandri.developers.entity.Developer;
-import org.geoandri.developers.exception.EntityNotFoundException;
+import org.geoandri.developers.exception.DeveloperNotFoundException;
 import org.geoandri.developers.exception.EntityPersistenceException;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -54,7 +54,7 @@ public class DeveloperDao {
             return developer;
         }
 
-        throw new EntityNotFoundException(String.format("Developer with id %s could not be found.", id));
+        throw new DeveloperNotFoundException(String.format("Developer with id %s could not be found.", id));
     }
 
     public Developer updateDeveloper(Developer developer) {

@@ -80,7 +80,7 @@ public class TeamResourceTest {
         assertEquals("A test description", responseTeamDto.getDescription());
 
         Mockito.verify(teamProducer, Mockito.times(1)).
-                publishEvent(new TeamEvent(EventType.TEAM_CREATED, responseTeamDto));
+                publishEvent(new TeamEvent(EventType.TEAM_CREATED, responseTeamDto.getId()));
     }
 
     @Test
@@ -122,9 +122,6 @@ public class TeamResourceTest {
 
         assertEquals("An updated team", responseTeamDto.getName());
         assertEquals("An updated description", responseTeamDto.getDescription());
-
-        Mockito.verify(teamProducer, Mockito.times(1))
-                .publishEvent(new TeamEvent(EventType.TEAM_UPDATED, responseTeamDto));
     }
 
     @Test
@@ -159,7 +156,7 @@ public class TeamResourceTest {
                 .statusCode(200);
 
         Mockito.verify(teamProducer, Mockito.times(1))
-                .publishEvent(new TeamEvent(EventType.TEAM_DELETED, Mockito.any()));
+                .publishEvent(new TeamEvent(EventType.TEAM_DELETED, 3));
     }
 
     @Test

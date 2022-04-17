@@ -64,7 +64,7 @@ public class DeveloperResourceTest {
                 .then()
                 .statusCode(200)
                 .body("name", equalTo("Developer 1A"))
-                .body("team", equalTo("Team A"));
+                .body("teamId", equalTo(1));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class DeveloperResourceTest {
     public void testPostDeveloperEndpoint() {
         DeveloperDto developerDto = new DeveloperDto();
         developerDto.setName("A new developer");
-        developerDto.setTeam("Team A");
+        developerDto.setTeamId(1L);
 
         given()
                 .contentType(ContentType.JSON)
@@ -82,7 +82,7 @@ public class DeveloperResourceTest {
                 .contentType(ContentType.JSON)
                 .statusCode(201)
                 .body("name", equalTo("A new developer"))
-                .body("team", equalTo("Team A"));
+                .body("teamId", equalTo(1));
     }
 
     @Test
@@ -90,7 +90,7 @@ public class DeveloperResourceTest {
     public void testPutDeveloperEndpoint() {
         DeveloperDto developerDto = new DeveloperDto();
         developerDto.setName("An updated developer");
-        developerDto.setTeam("Team B");
+        developerDto.setTeamId(2L);
 
         given()
                 .contentType(ContentType.JSON)
@@ -100,7 +100,7 @@ public class DeveloperResourceTest {
                 .contentType(ContentType.JSON)
                 .statusCode(200)
                 .body("name", equalTo("An updated developer"))
-                .body("team", equalTo("Team B"));
+                .body("teamId", equalTo(2));
     }
 
 
@@ -118,7 +118,7 @@ public class DeveloperResourceTest {
     @Order(8)
     public void testPostDeveloperEndpointWhenValidationFails() {
         DeveloperDto developerDto = new DeveloperDto();
-        developerDto.setTeam("Team A");
+        developerDto.setTeamId(1L);
 
         ErrorMessage response = given()
                                         .contentType(ContentType.JSON)
@@ -137,7 +137,8 @@ public class DeveloperResourceTest {
     @Order(9)
     public void testPostDeveloperEndpointWithExistingName() {
         DeveloperDto developerDto = new DeveloperDto();
-        developerDto.setName("Developer 1A");
+        developerDto.setName("Developer 1B");
+        developerDto.setTeamId(1L);
 
         given()
                 .contentType(ContentType.JSON)

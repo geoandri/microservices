@@ -10,12 +10,12 @@ import java.util.List;
 @Mapper(componentModel = "cdi", uses = { TeamMapper.class })
 public interface DeveloperMapper {
 
-    @Mapping(target = "team", source = "team.name")
+    @Mapping(target = "teamId", source = "team.id")
     List<DeveloperDto> map(List<Developer> teams);
 
-    @Mapping(target = "team", source = "team.name")
+    @Mapping(target = "teamId", source = "team.id")
     DeveloperDto toDeveloperDto(Developer team);
 
-    @Mapping(target = "team.name", source = "team")
+    @Mapping(target = "team.id", source = "teamId")
     Developer toDeveloper(DeveloperDto teamDto);
 }
