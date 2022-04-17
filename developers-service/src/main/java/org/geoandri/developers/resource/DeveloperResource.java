@@ -93,7 +93,7 @@ public class DeveloperResource {
             content = @Content(mediaType = MediaType.APPLICATION_JSON)
     )
     @APIResponse(
-            responseCode = "404",
+            responseCode = "400",
             description = "Team provided not found",
             content = @Content(mediaType = MediaType.APPLICATION_JSON)
     )
@@ -129,7 +129,7 @@ public class DeveloperResource {
             content = @Content(mediaType = MediaType.APPLICATION_JSON)
     )
     @APIResponse(
-            responseCode = "404",
+            responseCode = "400",
             description = "Team not found",
             content = @Content(mediaType = MediaType.APPLICATION_JSON)
     )

@@ -6,8 +6,8 @@ import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.geoandri.developers.dto.TeamDto;
 import org.geoandri.developers.entity.Team;
 import org.geoandri.developers.event.TeamEvent;
-import org.geoandri.developers.exception.EntityNotFoundException;
 import org.geoandri.developers.exception.EntityPersistenceException;
+import org.geoandri.developers.exception.TeamNotFoundException;
 import org.geoandri.developers.mapper.TeamMapper;
 import org.geoandri.developers.service.TeamService;
 import org.slf4j.Logger;
@@ -44,7 +44,7 @@ public class TeamConsumer {
                 Team team = teamMapper.toTeam(new TeamDto(event.getTeamId()));
                 try {
                     teamService.delete(team.getId());
-                } catch (EntityNotFoundException e) {
+                } catch (TeamNotFoundException e) {
                     LOGGER.warn("Team {} could not be found.", team);
                 }
                 break;

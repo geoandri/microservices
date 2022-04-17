@@ -1,8 +1,8 @@
 package org.geoandri.developers.dao;
 
 import org.geoandri.developers.entity.Team;
-import org.geoandri.developers.exception.EntityNotFoundException;
 import org.geoandri.developers.exception.EntityPersistenceException;
+import org.geoandri.developers.exception.TeamNotFoundException;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -33,7 +33,7 @@ public class TeamDao {
             return team;
         }
 
-        throw new EntityNotFoundException(String.format("Team with id %s could not be found.", id));
+        throw new TeamNotFoundException(String.format("Team with id %s could not be found.", id));
     }
 
     public void deleteTeam(long id) {
