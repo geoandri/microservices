@@ -1,7 +1,7 @@
 package org.geoandri.developers.dao;
 
 import org.geoandri.developers.entity.Developer;
-import org.geoandri.developers.exception.EntityNotFoundException;
+import org.geoandri.developers.exception.DeveloperNotFoundException;
 import org.geoandri.developers.exception.EntityPersistenceException;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -25,7 +25,7 @@ public class DeveloperDao {
         Query query = entityManager.createQuery(queryBuilder.toString());
         int firstResult = (pageNum - 1) * pageSize;
 
-        if(teamId != 0) {
+        if (teamId != 0) {
             query.setParameter("teamId", teamId);
         }
 
@@ -40,8 +40,7 @@ public class DeveloperDao {
             entityManager.persist(developer);
 
             return developer;
-        }
-        catch (PersistenceException e) {
+        } catch (PersistenceException e) {
             throw new EntityPersistenceException(e.getMessage());
         }
 
@@ -54,7 +53,7 @@ public class DeveloperDao {
             return developer;
         }
 
-        throw new EntityNotFoundException(String.format("Developer with id %s could not be found.", id));
+        throw new DeveloperNotFoundException(String.format("Developer with id %s could not be found.", id));
     }
 
     public Developer updateDeveloper(Developer developer) {
@@ -65,8 +64,7 @@ public class DeveloperDao {
             entityManager.merge(persistedDeveloper);
 
             return persistedDeveloper;
-        }
-        catch (PersistenceException e) {
+        } catch (PersistenceException e) {
             throw new EntityPersistenceException(e.getMessage());
         }
     }

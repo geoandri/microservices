@@ -137,7 +137,8 @@ public class DeveloperResourceTest {
     @Order(9)
     public void testPostDeveloperEndpointWithExistingName() {
         DeveloperDto developerDto = new DeveloperDto();
-        developerDto.setName("Developer 1A");
+        developerDto.setName("Developer 1B");
+        developerDto.setTeam("Team B");
 
         given()
                 .contentType(ContentType.JSON)
@@ -146,5 +147,26 @@ public class DeveloperResourceTest {
                 .then()
                 .contentType(ContentType.JSON)
                 .statusCode(400);
+    }
+
+    @Test
+    @Order(10)
+    public void testPostDeveloperEndpointWithNotExistingTeam() {
+        DeveloperDto developerDto = new DeveloperDto();
+        developerDto.setName("Developer New");
+        developerDto.setTeam("Team Z");
+
+        ErrorMessage response = given()
+                                        .contentType(ContentType.JSON)
+                                        .with().body(developerDto)
+                                        .when().post("/developers")
+                                        .then()
+                                        .contentType(ContentType.JSON)
+                                        .statusCode(400)
+                                        .extract().body().as(ErrorMessage.class);
+
+        assertEquals("Team with name Team Z could not be found.", response.getError());
+
+
     }
 }
