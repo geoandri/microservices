@@ -1,5 +1,6 @@
 package org.geoandri.developers.dao;
 
+import org.eclipse.microprofile.opentracing.Traced;
 import org.geoandri.developers.entity.Developer;
 import org.geoandri.developers.exception.DeveloperNotFoundException;
 import org.geoandri.developers.exception.EntityPersistenceException;
@@ -12,6 +13,7 @@ import javax.persistence.Query;
 import java.util.List;
 
 @ApplicationScoped
+@Traced
 public class DeveloperDao {
 
     @Inject

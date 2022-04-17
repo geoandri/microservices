@@ -1,5 +1,6 @@
 package org.geoandri.developers.dao;
 
+import org.eclipse.microprofile.opentracing.Traced;
 import org.geoandri.developers.entity.Team;
 import org.geoandri.developers.exception.EntityPersistenceException;
 import org.geoandri.developers.exception.TeamNotFoundException;
@@ -12,6 +13,7 @@ import javax.persistence.Query;
 import java.util.Optional;
 
 @ApplicationScoped
+@Traced
 public class TeamDao {
 
     @Inject

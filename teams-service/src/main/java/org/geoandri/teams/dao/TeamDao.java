@@ -1,5 +1,6 @@
 package org.geoandri.teams.dao;
 
+import org.eclipse.microprofile.opentracing.Traced;
 import org.geoandri.teams.entity.Team;
 import org.geoandri.teams.exception.TeamNotFoundException;
 import org.geoandri.teams.exception.TeamPersistenceException;
@@ -14,6 +15,7 @@ import javax.persistence.Query;
 import java.util.List;
 
 @ApplicationScoped
+@Traced
 public class TeamDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(TeamDao.class);
 
