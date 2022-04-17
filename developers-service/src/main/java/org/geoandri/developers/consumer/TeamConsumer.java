@@ -15,8 +15,6 @@ import org.slf4j.LoggerFactory;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-
-
 @ApplicationScoped
 public class TeamConsumer {
     private static Logger LOGGER = LoggerFactory.getLogger(TeamConsumer.class);
@@ -37,7 +35,7 @@ public class TeamConsumer {
                 try {
                     teamService.save(teamMapper.toTeam(event.getTeamDto()));
                 } catch (EntityPersistenceException e) {
-                    LOGGER.error(e.getMessage());
+                    LOGGER.warn("Error while persisting team {}. The error was: {}", event.getTeamDto(), e.getMessage());
                 }
                 break;
             }

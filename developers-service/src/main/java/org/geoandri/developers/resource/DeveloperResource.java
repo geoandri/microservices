@@ -23,7 +23,7 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class DeveloperResource {
-    private static final Logger logger = LoggerFactory.getLogger(DeveloperResource.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeveloperResource.class);
 
     @Inject
     DeveloperService developerService;
@@ -43,6 +43,8 @@ public class DeveloperResource {
     public Response getDevelopers(@DefaultValue("1") @QueryParam("pageNum") int pageNum,
                                   @DefaultValue("20") @QueryParam("pageSize") int pageSize,
                                   @QueryParam("teamId") long teamId) {
+        LOGGER.debug("Receive request to get developers with parameters pageNum: {}, pageSize: {}, teamId: {}",
+                pageNum, pageSize, teamId);
         List<DeveloperDto> developerDtoList = developerMapper.map(developerService.getAll(pageNum, pageSize, teamId));
 
         return Response
@@ -67,6 +69,7 @@ public class DeveloperResource {
             content = @Content(mediaType = MediaType.APPLICATION_JSON)
     )
     public Response getDeveloper(@PathParam("id") long id) {
+        LOGGER.debug("Receive request to get developer with id: {}", id);
         DeveloperDto developerDto = developerMapper.toDeveloperDto(developerService.get(id));
 
         return Response
@@ -95,6 +98,7 @@ public class DeveloperResource {
             content = @Content(mediaType = MediaType.APPLICATION_JSON)
     )
     public Response saveDeveloper(@Valid DeveloperDto developerDto) {
+        LOGGER.debug("Receive request to save  developer {}", developerDto);
         DeveloperDto persistedDeveloperDto = developerMapper.
                 toDeveloperDto(developerService.save(developerMapper.toDeveloper(developerDto)));
 
@@ -130,6 +134,7 @@ public class DeveloperResource {
             content = @Content(mediaType = MediaType.APPLICATION_JSON)
     )
     public Response updateDeveloper(@PathParam("id") long id, DeveloperDto developerDto) {
+        LOGGER.debug("Receive request to update developer with id: {} and updated data {}", id, developerDto);
         developerDto.setId(id);
         DeveloperDto updatedDeveloperDto = developerMapper.
                 toDeveloperDto(developerService.update(developerMapper.toDeveloper(developerDto)));
@@ -156,6 +161,7 @@ public class DeveloperResource {
             content = @Content(mediaType = MediaType.APPLICATION_JSON)
     )
     public Response deleteDeveloper(@PathParam("id") long id) {
+        LOGGER.debug("Receive request to delete developer with id: {}", id);
         developerService.delete(id);
 
         return Response
