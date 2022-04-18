@@ -47,7 +47,7 @@ public class TeamResource {
     )
     public Response getTeams(@DefaultValue("1") @QueryParam("pageNum") int pageNum,
                              @DefaultValue("20") @QueryParam("pageSize") int pageSize) {
-        LOGGER.debug("Receive request to get teams with parameters pageNum: {}, pageSize: {}", pageNum, pageSize);
+        LOGGER.debug("Received request to get teams with parameters pageNum: {}, pageSize: {}", pageNum, pageSize);
         List<TeamDto> teamDtoList = teamMapper.map(teamService.getAll(pageNum, pageSize));
 
         return Response
@@ -72,7 +72,7 @@ public class TeamResource {
             content = @Content(mediaType = MediaType.APPLICATION_JSON)
     )
     public Response getTeam(@PathParam("id") long id) {
-        LOGGER.debug("Receive request to get team with id: {}", id);
+        LOGGER.debug("Received request to get team with id: {}", id);
         TeamDto teamDto = teamMapper.toTeamDto(teamService.get(id));
 
         return Response
@@ -127,7 +127,7 @@ public class TeamResource {
             content = @Content(mediaType = MediaType.APPLICATION_JSON)
     )
     public Response updateTeam(@PathParam("id") long id, TeamDto teamDto) {
-        LOGGER.debug("Receive request to update developer with id: {} and updated data: {}", id, teamDto);
+        LOGGER.debug("Received request to update developer with id: {} and updated data: {}", id, teamDto);
         TeamDto updatedTeamDto = teamMapper.toTeamDto(teamService.update(id, teamMapper.toTeam(teamDto)));
         teamProducer.publishEvent(new TeamEvent(EventType.TEAM_UPDATED, updatedTeamDto));
 
@@ -153,7 +153,7 @@ public class TeamResource {
             content = @Content(mediaType = MediaType.APPLICATION_JSON)
     )
     public Response deleteTeam(@PathParam("id") long id) {
-        LOGGER.debug("Receive request to delete developer with id: {}", id);
+        LOGGER.debug("Received request to delete developer with id: {}", id);
         teamService.delete(id);
         teamProducer.publishEvent(new TeamEvent(EventType.TEAM_DELETED, new TeamDto(id, "FOR DELETION")));
 
