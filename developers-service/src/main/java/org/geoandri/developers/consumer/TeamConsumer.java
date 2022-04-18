@@ -3,6 +3,8 @@ package org.geoandri.developers.consumer;
 import io.smallrye.reactive.messaging.annotations.Blocking;
 import org.eclipse.microprofile.opentracing.Traced;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
+import org.eclipse.microprofile.reactive.messaging.Message;
+import org.geoandri.developers.annotation.KafkaConsumerInterceptor;
 import org.geoandri.developers.entity.Team;
 import org.geoandri.developers.event.TeamEvent;
 import org.geoandri.developers.exception.EntityPersistenceException;
@@ -14,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.concurrent.CompletionStage;
 
 @ApplicationScoped
 public class TeamConsumer {
@@ -28,8 +31,10 @@ public class TeamConsumer {
     @Incoming("team-events")
     @Blocking
     @Traced
-    public void consumeEvents(TeamEvent event) {
-        LOGGER.debug("Received event from Kafka: {}", event.toString());
+    @KafkaConsumerInterceptor
+    public CompletionStage<Void> consumeEvents(Message<TeamEvent> message) {
+        LOGGER.debug("Received event from Kafka: {}", message.getPayload().toString());
+        TeamEvent event = message.getPayload();
         switch (event.getEventType()) {
             case TEAM_CREATED: {
                 try {
@@ -60,5 +65,6 @@ public class TeamConsumer {
                 break;
             }
         }
+        return message.ack();
     }
 }

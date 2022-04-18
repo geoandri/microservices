@@ -7,6 +7,7 @@ import io.quarkus.test.kafka.InjectKafkaCompanion;
 import io.quarkus.test.kafka.KafkaCompanionResource;
 import io.smallrye.reactive.messaging.kafka.companion.KafkaCompanion;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.eclipse.microprofile.reactive.messaging.Message;
 import org.geoandri.developers.dto.TeamDto;
 import org.geoandri.developers.event.EventType;
 import org.geoandri.developers.event.TeamEvent;
@@ -25,7 +26,6 @@ public class TeamConsumerTest {
     TeamConsumer teamConsumer;
 
     @Test
-    @Ignore
     public void testTeamConsumer() {
         TeamDto teamDto = new TeamDto();
         teamDto.setId(50);
@@ -40,6 +40,6 @@ public class TeamConsumerTest {
                 .fromRecords(new ProducerRecord<>("team-events", 1, teamEvent)).awaitCompletion();
 
         Mockito.verify(teamConsumer, Mockito.timeout(5000).times(1))
-                .consumeEvents(teamEvent);
+                .consumeEvents(Mockito.any(Message.class));
     }
 }

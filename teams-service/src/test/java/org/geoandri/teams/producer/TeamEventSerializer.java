@@ -33,8 +33,6 @@ public class TeamEventSerializer implements Serializer<TeamEvent> {
         }
     }
 
-
-
     @Override
     public void close() {
         Serializer.super.close();
