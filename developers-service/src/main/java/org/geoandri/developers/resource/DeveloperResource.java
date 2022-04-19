@@ -150,10 +150,7 @@ public class DeveloperResource {
     @APIResponse(
             responseCode = "200",
             description = "Developer deleted",
-            content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON,
-                    schema = @Schema(type = SchemaType.OBJECT, implementation = DeveloperDto.class)
-            )
+            content = @Content(mediaType = MediaType.APPLICATION_JSON)
     )
     @APIResponse(
             responseCode = "404",

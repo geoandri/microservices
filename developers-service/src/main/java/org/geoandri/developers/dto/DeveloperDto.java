@@ -1,15 +1,15 @@
 package org.geoandri.developers.dto;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
 public class DeveloperDto {
 
     private long id;
 
-    @NotEmpty(message = "Developer's name is required.")
+    @NotBlank(message = "Developer's name is required.")
     private String name;
 
-    @NotEmpty(message = "Developer's team is required.")
+    @NotBlank(message = "Developer's team is required.")
     private String team;
 
     public long getId() {

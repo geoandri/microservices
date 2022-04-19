@@ -142,10 +142,7 @@ public class TeamResource {
     @APIResponse(
             responseCode = "200",
             description = "Team deleted",
-            content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON,
-                    schema = @Schema(type = SchemaType.OBJECT, implementation = TeamDto.class)
-            )
+            content = @Content(mediaType = MediaType.APPLICATION_JSON)
     )
     @APIResponse(
             responseCode = "404",
