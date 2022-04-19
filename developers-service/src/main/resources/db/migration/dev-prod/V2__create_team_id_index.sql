@@ -1,0 +1,1 @@
+create index team_id_index on developers (team_id);
